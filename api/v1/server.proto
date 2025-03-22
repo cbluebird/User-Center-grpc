@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package serverv1;
+
+import "api/user/v1alpha1/hello.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/zjutjh/User-Center-grpc/api/v1";
+
+service User {
+  rpc Hello(zjut.jh.api.user.v1alpha1.HelloRequest)
+      returns (zjut.jh.api.user.v1alpha1.HelloResponse) {
+    option (google.api.http) = {
+      get: "/api/hello/{name}"
+    };
+  }
+}

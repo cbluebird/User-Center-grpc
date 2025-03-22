@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package zjut.jh.api.user.v1alpha1;
+
+option go_package = "github.com/zjutjh/User-Center-grpc/api/user/v1alpha1;v1alpha1";
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string message = 1;
+}
