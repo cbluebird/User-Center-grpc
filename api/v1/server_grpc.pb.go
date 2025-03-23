@@ -8,6 +8,7 @@ package v1
 
 import (
 	context "context"
+	v1alpha11 "github.com/zjutjh/User-Center-grpc/api/types/v1alpha1"
 	v1alpha1 "github.com/zjutjh/User-Center-grpc/api/user/v1alpha1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -20,14 +21,22 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_Hello_FullMethodName = "/serverv1.User/Hello"
+	User_Register_FullMethodName      = "/serverv1.User/Register"
+	User_Login_FullMethodName         = "/serverv1.User/Login"
+	User_ResetPassword_FullMethodName = "/serverv1.User/ResetPassword"
+	User_Delete_FullMethodName        = "/serverv1.User/Delete"
+	User_OauthLogin_FullMethodName    = "/serverv1.User/OauthLogin"
 )
 
 // UserClient is the client API for User service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
-	Hello(ctx context.Context, in *v1alpha1.HelloRequest, opts ...grpc.CallOption) (*v1alpha1.HelloResponse, error)
+	Register(ctx context.Context, in *v1alpha1.RegisterRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error)
+	Login(ctx context.Context, in *v1alpha1.LoginRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error)
+	ResetPassword(ctx context.Context, in *v1alpha1.ResetPasswordRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error)
+	Delete(ctx context.Context, in *v1alpha1.DeleteRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error)
+	OauthLogin(ctx context.Context, in *v1alpha1.LoginRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error)
 }
 
 type userClient struct {
@@ -38,10 +47,50 @@ func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
 }
 
-func (c *userClient) Hello(ctx context.Context, in *v1alpha1.HelloRequest, opts ...grpc.CallOption) (*v1alpha1.HelloResponse, error) {
+func (c *userClient) Register(ctx context.Context, in *v1alpha1.RegisterRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v1alpha1.HelloResponse)
-	err := c.cc.Invoke(ctx, User_Hello_FullMethodName, in, out, cOpts...)
+	out := new(v1alpha11.Response)
+	err := c.cc.Invoke(ctx, User_Register_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) Login(ctx context.Context, in *v1alpha1.LoginRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(v1alpha11.Response)
+	err := c.cc.Invoke(ctx, User_Login_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ResetPassword(ctx context.Context, in *v1alpha1.ResetPasswordRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(v1alpha11.Response)
+	err := c.cc.Invoke(ctx, User_ResetPassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) Delete(ctx context.Context, in *v1alpha1.DeleteRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(v1alpha11.Response)
+	err := c.cc.Invoke(ctx, User_Delete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) OauthLogin(ctx context.Context, in *v1alpha1.LoginRequest, opts ...grpc.CallOption) (*v1alpha11.Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(v1alpha11.Response)
+	err := c.cc.Invoke(ctx, User_OauthLogin_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +101,11 @@ func (c *userClient) Hello(ctx context.Context, in *v1alpha1.HelloRequest, opts 
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
 type UserServer interface {
-	Hello(context.Context, *v1alpha1.HelloRequest) (*v1alpha1.HelloResponse, error)
+	Register(context.Context, *v1alpha1.RegisterRequest) (*v1alpha11.Response, error)
+	Login(context.Context, *v1alpha1.LoginRequest) (*v1alpha11.Response, error)
+	ResetPassword(context.Context, *v1alpha1.ResetPasswordRequest) (*v1alpha11.Response, error)
+	Delete(context.Context, *v1alpha1.DeleteRequest) (*v1alpha11.Response, error)
+	OauthLogin(context.Context, *v1alpha1.LoginRequest) (*v1alpha11.Response, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -63,8 +116,20 @@ type UserServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServer struct{}
 
-func (UnimplementedUserServer) Hello(context.Context, *v1alpha1.HelloRequest) (*v1alpha1.HelloResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Hello not implemented")
+func (UnimplementedUserServer) Register(context.Context, *v1alpha1.RegisterRequest) (*v1alpha11.Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedUserServer) Login(context.Context, *v1alpha1.LoginRequest) (*v1alpha11.Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedUserServer) ResetPassword(context.Context, *v1alpha1.ResetPasswordRequest) (*v1alpha11.Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+}
+func (UnimplementedUserServer) Delete(context.Context, *v1alpha1.DeleteRequest) (*v1alpha11.Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedUserServer) OauthLogin(context.Context, *v1alpha1.LoginRequest) (*v1alpha11.Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OauthLogin not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -87,20 +152,92 @@ func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
 	s.RegisterService(&User_ServiceDesc, srv)
 }
 
-func _User_Hello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1alpha1.HelloRequest)
+func _User_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1alpha1.RegisterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).Hello(ctx, in)
+		return srv.(UserServer).Register(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_Hello_FullMethodName,
+		FullMethod: User_Register_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).Hello(ctx, req.(*v1alpha1.HelloRequest))
+		return srv.(UserServer).Register(ctx, req.(*v1alpha1.RegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1alpha1.LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Login(ctx, req.(*v1alpha1.LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1alpha1.ResetPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ResetPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ResetPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ResetPassword(ctx, req.(*v1alpha1.ResetPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1alpha1.DeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Delete(ctx, req.(*v1alpha1.DeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_OauthLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1alpha1.LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).OauthLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_OauthLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).OauthLogin(ctx, req.(*v1alpha1.LoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -113,8 +250,24 @@ var User_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Hello",
-			Handler:    _User_Hello_Handler,
+			MethodName: "Register",
+			Handler:    _User_Register_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _User_Login_Handler,
+		},
+		{
+			MethodName: "ResetPassword",
+			Handler:    _User_ResetPassword_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _User_Delete_Handler,
+		},
+		{
+			MethodName: "OauthLogin",
+			Handler:    _User_OauthLogin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
