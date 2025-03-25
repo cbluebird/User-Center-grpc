@@ -29,6 +29,11 @@ apiserver:
 genproto:
 	cd ./api/ && $(MAKE) genproto
 
+# generate code
+.PHONY: install
+install:
+	cd ./api/ && $(MAKE) install_grpc_dep
+
 .PHONY: genswagger
 genswagger:
 	cd ./api/ && $(MAKE)  genswagger

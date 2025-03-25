@@ -93,6 +93,5 @@ func (u *UserHandler) OauthLogin(ctx context.Context, req *userv1.LoginRequest) 
 			return apiExpection.Unknown.ToResponse()
 		}
 	}
-
 	return util.ResponseSuccess(nil)
 }
