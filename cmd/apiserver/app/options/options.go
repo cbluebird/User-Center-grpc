@@ -14,6 +14,7 @@ import (
 
 	"github.com/zjutjh/User-Center-grpc/pkg/apiserver"
 	"github.com/zjutjh/User-Center-grpc/pkg/database"
+	"github.com/zjutjh/User-Center-grpc/pkg/nacos"
 	"github.com/zjutjh/User-Center-grpc/pkg/redis"
 	"github.com/zjutjh/User-Center-grpc/pkg/viper"
 )
@@ -22,6 +23,7 @@ type Options struct {
 	ServerRunOptions   *apiserver.ServerRunOptions
 	DatabaseRunOptions *database.RunOptions
 	RedisRunOptions    *redis.RunOptions
+	NacosRunOptions    *nacos.RunOptions
 	Debug              bool
 }
 
@@ -31,10 +33,12 @@ func NewAPIServerRunOptions() *Options {
 		ServerRunOptions:   apiserver.NewServerRunOptions(),
 		DatabaseRunOptions: database.NewRunOptions(),
 		RedisRunOptions:    redis.NewRunOptions(),
+		NacosRunOptions:    nacos.NewRunOptions(),
 	}
 }
 
 func (o *Options) NewAPIServer() (*apiserver.APIServer, error) {
+	o.NacosRunOptions.RegisterNacosService()
 	o.DatabaseRunOptions.Init()
 	o.RedisRunOptions.Init()
 

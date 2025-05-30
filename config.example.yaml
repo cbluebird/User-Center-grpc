@@ -1,4 +1,14 @@
-dev: true
+server:
+  name: "user-center-grpc"
+  address: "0.0.0.0"
+  port:
+    insecure: 8080
+    insecureGRPC: 8081
+    secure: 0
+  tls:
+    certFile: ""
+    privateKey: ""
+  dev: true
 
 db:
   user: "root"
@@ -11,3 +21,9 @@ redis:
   port: "6379"
   db: 0
   password:
+
+nacos:
+  host: "127.0.0.1"
+  port: 8848
+  username: "nacos"
+  password: "nacos"
